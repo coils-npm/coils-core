@@ -27,7 +27,7 @@ class Coils {
 		if (this['NODE_ENV'] === 'production') {
 			port = this.EnvConfig && this.EnvConfig.PORT || port || 3000
 		} else {
-			port = port || this.envConfig.PORT || 3000
+			port = port || this.EnvConfig && this.EnvConfig.PORT || 3000
 		}
 		this._koa.listen(port, function () {
 			console.log(`app start at: http://localhost:${port}`)
