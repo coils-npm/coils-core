@@ -16,7 +16,7 @@ class Coils {
 	
 	setGlobalVars () {
 		Object.defineProperties(global, { "$application": { "get": () => { return application } } })
-		for (let model of this['$Models']) {
+		for (let model of this['_Models']) {
 			Object.defineProperties(global, {
 				[model.name]: { "get": () => { return model } }
 		})
@@ -24,8 +24,12 @@ class Coils {
 	}
 	
 	startKoa (port) {
-		port = port || this.envConfig.PORT || 3000
-		this.$koa.listen(port, function () {
+		if (this['NODE_ENV'] === 'production') {
+			port = this.EnvConfig && this.EnvConfig.PORT || port || 3000
+		} else {
+			port = port || this.envConfig.PORT || 3000
+		}
+		this._koa.listen(port, function () {
 			console.log(`app start at: http://localhost:${port}`)
 		})
 	}
