@@ -6,9 +6,9 @@ class Coils {
 		}
 	}
 	
-	use (module) {
+	use (module, ...arguments) {
 		if (module.mounted) {
-			return module.mounted(this)
+			return module.mounted(this, ...arguments)
 		} else {
 			console.error(`module ${module} must define mounted method`)
 		}
