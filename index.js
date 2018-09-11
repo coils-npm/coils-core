@@ -1,9 +1,10 @@
+const NODE_ENV = process.env.NODE_ENV || 'development'
 class Coils {
-	constructor (options) {
-		for (let key in options) {
-			const freezeObj = Object.freeze(options[key])
-			Object.defineProperties(this, { [key]: { "get": () => { return freezeObj } } })
-		}
+	constructor (initOptions) {
+		Object.defineProperties(this, { 'NODE_ENV': { "get": () => { return NODE_ENV } } })
+		const freezeObj = Object.freeze(initOptions || {})
+		Object.defineProperties(this, { 'initOptions': { "get": () => { return freezeObj } } })
+		Object.defineProperties(this, { 'PORT': { "get": () => { return this['initOptions'].PORT || 3000 } } })
 	}
 	
 	use (module, ...args) {
@@ -23,14 +24,9 @@ class Coils {
 		}
 	}
 	
-	startKoa (port) {
-		if (this['NODE_ENV'] === 'production') {
-			port = this.EnvConfig && this.EnvConfig.PORT || port || 3000
-		} else {
-			port = port || this.EnvConfig && this.EnvConfig.PORT || 3000
-		}
-		this._koa.listen(port, function () {
-			console.log(`app start at: http://localhost:${port}`)
+	startKoa () {
+		this._koa.listen(this['PORT'], () => {
+			console.log(`app start at: http://localhost:${this['PORT']}`)
 		})
 	}
 }
