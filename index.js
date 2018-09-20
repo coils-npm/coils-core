@@ -4,7 +4,7 @@ class Coils {
 		Object.defineProperties(this, { 'NODE_ENV': { "get": () => { return NODE_ENV } } })
 		const freezeObj = Object.freeze(initOptions || {})
 		Object.defineProperties(this, { 'initOptions': { "get": () => { return freezeObj } } })
-		Object.defineProperties(this, { 'PORT': { "get": () => { return this['initOptions'].PORT || 3000 } } })
+		Object.defineProperties(this, { 'PORT': { "get": () => { return this['initOptions'].PORT || this['_env'] && this['_env']['PORT'] || 3000 } } })
 	}
 	
 	use (module, ...args) {
