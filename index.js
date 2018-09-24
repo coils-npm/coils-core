@@ -16,7 +16,7 @@ class Coils {
 	}
 	
 	setGlobalVars () {
-		Object.defineProperties(global, { "$application": { "get": () => { return application } } })
+		Object.defineProperties(global, { "$app": { "get": () => { return application } } })
 		for (let modelName in this['_Models']) {
 			Object.defineProperties(global, {
 				[modelName]: { "get": () => { return this['_Models'][modelName] } }
